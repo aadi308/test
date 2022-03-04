@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: multi-go-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-app
+  template:
+    metadata:
+      labels:
+        app: go-app
+    spec:
+      containers:
+      - name: multigo-app-container
+        image: aadi557/multigolan-app:latest
+        ports:
+        - containerPort: 8081
+        volumeMounts:
+          - name: golang-persistent-storage
+            mountPath: /tmp/golang
+      volumes:
+        - name: golang-persistent-storage
+          persistentVolumeClaim:
+            claimName: multigol-pv-claim
+
